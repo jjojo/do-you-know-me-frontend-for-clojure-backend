@@ -10,15 +10,10 @@ const Playing = () => {
   const { gameState } = useContext(GameState);
   const { player } = usePlayer();
 
-  const focusableQuestions = () => {
-    console.log(Object.keys(gameState.players)
-    .filter(key => gameState.players[key].id !== player.id))
-
-    return Object.keys(gameState.players)
+  const focusableQuestions = () => (Object.keys(gameState.players)
     .filter(key => gameState.players[key].id !== player.id)
     .map(key => gameState.players[key].questions)
-    .filter(q => !q.answered)[0]
-  }
+    .filter(q => !q.answered)[0])
 
   return (<>{ gameState && player && 
     !gameState.activeQuestion
@@ -29,12 +24,10 @@ const Playing = () => {
                 <footer></footer>
               </>}
         </>
-      : <>
-      <p>no active question yet</p>
-      {
-            // gameState.activeQuestion.question.playerId === player.id
-            //   ? <CorrectAnswers/>
-            //   : <AnswerQuestion/>
+      : <>{
+            gameState.activeQuestion && gameState.activeQuestion.playerId === player.id
+              ? <CorrectAnswers/>
+              : <>{ gameState.activeQuestion && <AnswerQuestion/>}</>
           }
         </>}
   </>)

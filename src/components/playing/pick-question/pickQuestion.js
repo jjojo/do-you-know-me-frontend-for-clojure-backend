@@ -1,6 +1,5 @@
-import React, {useContext, useState, useEffect, useCallback} from 'react'
+import React, {useContext, useState, useEffect} from 'react'
 import { Socket, GameState } from '../../../contexts';
-import usePlayer from '../../../hooks/usePlayer';
 import './pickQuestion.scss'
 import Question from '../../question/question';
 
@@ -27,9 +26,9 @@ const PickQuestion = (props) => {
 
   const pickQuestion = () => {
     socket.send(JSON.stringify({
-      action: "PICK_QUESTION",
+      action: "SET_ACTIVE_QUESTION",
       id: gameState.id,
-      questionId: props.questions[qIndex].id
+      question: props.questions[qIndex],
     }))
   }
 

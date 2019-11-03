@@ -5,6 +5,7 @@ import PlayerEmojiUsername from '../../components/playerEmojiUsername/playerEmoj
 import Question from '../../components/question/question';
 import './gameScreen.scss';
 import GameStarted from '../../components/gameStarted/gameStarted';
+import QuestionPopUp from '../../components/questionPopUp/questionPopUp';
 
 function GameScreen(props) {
   console.log(props);
@@ -33,6 +34,7 @@ function GameScreen(props) {
         </header>
 
         <main>
+          { gameState.activeQuestion && <QuestionPopUp/>}
           {Object.keys(gameState.players).map((key) => {
             const player = gameState.players[key];
             return (

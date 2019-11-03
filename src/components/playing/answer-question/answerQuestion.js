@@ -6,28 +6,33 @@ import './answerQuestion.scss'
 const AnswerQuestion = () => {
   const { gameState } = useContext(GameState);
   const { socket } = useContext(Socket)
-  const { player } = usePlayer();
-  const [answer, setAnswer] = useState(null)
+  const [answer, setAnswer] = useState(' ')
 
   const submitAnswer = (event) => {
     event.preventDefault()
     socket.send(JSON.stringify({
       action: "ANSWER",
       id: gameState.id,
-      playerId: player.id,
+      playerId: sessionStorage.playerId,
       answer,
     }))
+    setAnswer(null)
   }
 
   return (<>
-    <main>
-      <h1>Time to answer, good luck!</h1>
-      <form onSubmit={submitAnswer} id="answerForm">
-        <textarea placeholder={'Type your answer here'} onChange={(e) => setAnswer(e.target.value)} />
-      </form>
-    </main>
+    {answer 
+    ? <main>
+        <h1>Time to answer, good luck!</h1>
+        <form onSubmit={submitAnswer} id="answerForm">
+          <textarea placeholder={'Type your answer here'} onChange={(e) => setAnswer(e.target.value)} />
+        </form>
+      </main>
+    : <main>
+        <h1>Waiting for {gameState.players[gameState.activeQuestion.playerId].emoji} to correct the answers</h1>
+      </main>
+    }
     <footer>
-      <button type="submit" form="answerForm" value="Submit">Submit Answer</button>
+      {answer ? <button type="submit" form="answerForm" value="Submit">Submit Answer</button> : <></>}
     </footer>
   </>)
 }

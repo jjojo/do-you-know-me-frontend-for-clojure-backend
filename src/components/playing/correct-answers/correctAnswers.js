@@ -1,25 +1,31 @@
 import React, {useContext, useState, useEffect} from 'react'
 import './correctAnswers.scss'
 import { GameState, Socket } from '../../../contexts';
-import usePlayer from '../../../hooks/usePlayer';
 
 const CorrectAnswers = () => {
   const { gameState } = useContext(GameState);
   const { socket } = useContext(Socket)
-  const { player } = usePlayer();
   const [answer, setAnswer] = useState(null)
 
   useEffect(() => {
-    setAnswer(gameState.activeQuestion.answers.filter(a => !a.hasOwnProperty('correct'))[0])
-  }, [gameState.activeQuestion.answers])
+    console.log(Object.keys(gameState.activeQuestion.answers))
+    console.log(Object.keys(gameState.activeQuestion.answers).filter(key => !gameState.activeQuestion.answers[key].hasOwnProperty('correct'))[0])
+     setAnswer(Object.keys(gameState.activeQuestion.answers)
+      .filter(key => !gameState.activeQuestion.answers[key].hasOwnProperty('correct'))
+      .map(key => gameState.activeQuestion.answers[key])[0])
+  }, [gameState])
 
   const correctAnswer = (event, bool) => {
     event.preventDefault()
-    console.log("CORRECTED A QUESTION", bool)
-    // socket.emit('CorrectedAnswer', state.gameState.room, answer.playerId, bool)
+    socket.send(JSON.stringify({
+      action: "CORRECT_ANSWER",
+      id: gameState.id,
+      playerId: answer.playerId,
+      correct: bool,
+    }))
   }
 
-  return (<React.Fragment>
+  return (<>
     <main>
       <h1>This is your question! Answers will come in soon, stay ready!</h1>
       <p>
@@ -35,7 +41,7 @@ const CorrectAnswers = () => {
       </button>
     </footer>
     
-  </React.Fragment>)
+  </>)
 }
 
 export default CorrectAnswers;
