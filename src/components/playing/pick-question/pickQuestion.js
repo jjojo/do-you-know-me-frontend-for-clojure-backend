@@ -1,12 +1,13 @@
 import React, {useContext, useState, useEffect} from 'react'
-import { Socket, GameState } from '../../../contexts';
+import { GameState } from '../../../contexts';
 import './pickQuestion.scss'
 import Question from '../../question/question';
+import { SocketContext } from '../../../sockets/socketProvider';
 
 const PickQuestion = (props) => {
   const { player } = props;
   const { gameState } = useContext(GameState);
-  const { socket } = useContext(Socket)
+  const { socket } = useContext(SocketContext)
   const [ qIndex, setQIndex ] = useState(0)
 
   const setFocus = (qIndex) => {

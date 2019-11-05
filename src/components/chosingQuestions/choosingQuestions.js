@@ -2,6 +2,7 @@ import React, {useEffect, useContext, useState} from 'react'
 import './choosingQuestions.scss'
 import { Socket, Questions, GameState } from '../../contexts'
 import usePlayer from '../../hooks/usePlayer';
+import { SocketContext } from '../../sockets/socketProvider';
 
 const ChoosingQuestions = (props) => {
   const { questions } = useContext(Questions);
@@ -11,7 +12,7 @@ const ChoosingQuestions = (props) => {
   const [ points, setPoints ] = useState(null);
   const [ qIndex, setQIndex ] = useState(0);
 
-  const { socket } = useContext(Socket)
+  const { socket } = useContext(SocketContext)
 
   useEffect(() => {
     if(socket) socket.send(JSON.stringify({action: "GET_QUESTIONS"}))
@@ -31,7 +32,7 @@ const ChoosingQuestions = (props) => {
       action: "ADD_QUESTION", 
       id: gameState.id,
       playerId: player.id,
-      question, 
+      questionId: question.id, 
     }))
     if (pointsLeft.length === 0) socket.send(JSON.stringify({
       action: "SET_PLAYER_READY",

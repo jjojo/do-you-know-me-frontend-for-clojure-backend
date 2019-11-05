@@ -2,10 +2,11 @@ import React, { useContext, useEffect, useState, useCallback } from 'react'
 import { useHistory } from "react-router-dom";
 import { Socket, GameState } from '../../contexts';
 import './start.scss'
+import { SocketContext } from '../../sockets/socketProvider';
 
 const Start = (props) => {
   console.log(props)
-  const {socket} = useContext(Socket)
+  const {socket} = useContext(SocketContext)
   const {gameState} = useContext(GameState)
   const [gameId, setGameId] = useState('');
   const history = useHistory();

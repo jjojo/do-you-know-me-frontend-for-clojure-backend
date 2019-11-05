@@ -10,9 +10,11 @@ const Playing = () => {
   const { gameState } = useContext(GameState);
   const { player } = usePlayer();
 
+  const getPlayersQuestions = (playerId) => Object.keys(gameState.players[playerId].questions).map(key => gameState.players[playerId].questions[key])
+
   const focusableQuestions = () => (Object.keys(gameState.players)
     .filter(key => gameState.players[key].id !== player.id)
-    .map(key => gameState.players[key].questions)
+    .map(key => getPlayersQuestions(key))
     .filter(q => !q.answered)[0])
 
   return (<>{ gameState && player && 

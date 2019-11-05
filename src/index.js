@@ -1,10 +1,22 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { render } from "react-dom";
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+import SocketProvider from './sockets/socketProvider';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+
+
+const renderApp = App => {
+  render(
+    <SocketProvider>
+      <App/>
+    </SocketProvider>,
+    document.getElementById("root")
+  );
+}
+
+renderApp(App);
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

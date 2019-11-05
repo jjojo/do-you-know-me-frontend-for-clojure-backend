@@ -15,7 +15,9 @@ const QuestionPopUp = () => {
     }
   }
   
-  return (<div className={'wrapper'}>
+  return (<div className={'wrapper'}>{
+    console.log(gameState.activeQuestion)}
+    {gameState && gameState.activeQuestion &&
     <div className={'question-pop-up'} style={{backgroundColor: `${gameState.players[gameState.activeQuestion.playerId].color}`}}>
       <span>{gameState.players[gameState.activeQuestion.playerId].emoji}</span>
       <h1>
@@ -32,7 +34,7 @@ const QuestionPopUp = () => {
           })}
       </section>
     </div>
-  </div>)
+  }</div>)
 }
 
 export default QuestionPopUp;

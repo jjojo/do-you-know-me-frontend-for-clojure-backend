@@ -1,18 +1,19 @@
 import React, {useContext, useState, useEffect} from 'react'
 import './correctAnswers.scss'
 import { GameState, Socket } from '../../../contexts';
+import { SocketContext } from '../../../sockets/socketProvider';
 
 const CorrectAnswers = () => {
   const { gameState } = useContext(GameState);
-  const { socket } = useContext(Socket)
-  const [answer, setAnswer] = useState(null)
+  const { socket } = useContext(SocketContext)
+  const [answer, setAnswer] = useState(false)
 
   useEffect(() => {
-    console.log(Object.keys(gameState.activeQuestion.answers))
-    console.log(Object.keys(gameState.activeQuestion.answers).filter(key => !gameState.activeQuestion.answers[key].hasOwnProperty('correct'))[0])
-     setAnswer(Object.keys(gameState.activeQuestion.answers)
-      .filter(key => !gameState.activeQuestion.answers[key].hasOwnProperty('correct'))
-      .map(key => gameState.activeQuestion.answers[key])[0])
+    if (Object.keys(gameState.activeQuestion.answers).length > 0) {
+      setAnswer(Object.keys(gameState.activeQuestion.answers)
+        .filter(key => !gameState.activeQuestion.answers[key].hasOwnProperty('correct'))
+        .map(key => gameState.activeQuestion.answers[key])[0])
+    } 
   }, [gameState])
 
   const correctAnswer = (event, bool) => {

@@ -2,10 +2,11 @@ import React, {useContext, useState} from 'react'
 import { GameState, Socket } from '../../../contexts';
 import usePlayer from '../../../hooks/usePlayer';
 import './answerQuestion.scss'
+import { SocketContext } from '../../../sockets/socketProvider';
 
 const AnswerQuestion = () => {
   const { gameState } = useContext(GameState);
-  const { socket } = useContext(Socket)
+  const { socket } = useContext(SocketContext)
   const [answer, setAnswer] = useState(' ')
 
   const submitAnswer = (event) => {

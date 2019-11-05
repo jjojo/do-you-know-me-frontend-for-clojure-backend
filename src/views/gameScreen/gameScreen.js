@@ -6,18 +6,17 @@ import Question from '../../components/question/question';
 import './gameScreen.scss';
 import GameStarted from '../../components/gameStarted/gameStarted';
 import QuestionPopUp from '../../components/questionPopUp/questionPopUp';
+//import { SocketContext } from '../../sockets/socketProvider';
 
 function GameScreen(props) {
   console.log(props);
   const { gameState } = useContext(GameState);
-  const { socket, setSocket } = useContext(Socket)
+  //const { socket } = useContext(SocketContext)
 
 
   useEffect(() => {
-    if (socket) {
-      socket.send(JSON.stringify({action: "GET_GAME_STATE", id: props.match.params.id}))
-    }
-  }, [socket, setSocket, props.match.params.id])
+    if (gameState) sessionStorage.setItem('gameId', gameState.id)
+  }, [gameState])
 
   const fullScreen = () => {
     document.getElementsByClassName("game-screen")[0].requestFullscreen();
@@ -40,11 +39,12 @@ function GameScreen(props) {
             return (
               <section style={{backgroundColor: player.color}} key={player.color}>
                 <div>
-                  {player.questions.map((question) => {
-                    return <Question question={question} player={player} key={question.question}></Question>
+                  {Object.keys(player.questions).map((key) => {
+                    return <Question question={player.questions[key]} player={player} key={player.questions[key].question}></Question>
                   })}
                 </div>
                 <PlayerEmojiUsername player={player}/>
+                <span>{player.points}</span>
               </section>
             )
           })}

@@ -5,22 +5,16 @@ import './gameController.scss';
 import ChoosingQuestions from '../../components/chosingQuestions/choosingQuestions';
 import Playing from '../../components/playing/playing';
 import usePlayer from '../../hooks/usePlayer';
+import { SocketContext } from '../../sockets/socketProvider';
 
 function PlayerScreen(props) {
   const { gameState } = useContext(GameState);
-  const { socket, setSocket } = useContext(Socket)
+  const { socket, setSocket } = useContext(SocketContext)
   const { player } = usePlayer();
 
-  // useEffect(() => {
-  //   if (!socket) {
-  //     const s = new WebSocket("ws://localhost:9000")
-  //     s.onopen = () => {
-  //       setSocket(s)
-  //       s.send(JSON.stringify({action: "GET_GAME_STATE", id: props.match.params.id}))
-  //     }
-  //   }
-  // }, [socket, setSocket, props.match.params.id])
-
+  useEffect(() => {
+    if (socket.readyState === 1) socket.send(JSON.stringify({action: "GET_GAME_STATE", id: props.match.params.id, playerId: props.match.params.playerId}))
+  }, [socket, socket.readyState, props.match.params.id, props.match.params.playerId])
 
   const sendUsername = (username) => {
     socket.send(JSON.stringify({
