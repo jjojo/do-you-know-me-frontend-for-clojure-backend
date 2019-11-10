@@ -15,7 +15,11 @@ const Question = (props) => {
         question 
         ${gameState.turn === props.question.playerId && gameState.gameStarted ? 'disabled' : ''} 
         ${props.question.focus && props.player.id !== gameState.turn ? 'focused' : ''}`} 
-          style={{backgroundColor: `${props.question.focus ? gameState.players[gameState.turn].color : '#ffffff'}`}}>
+          style={{
+            backgroundColor: `${props.question.focus ? gameState.players[gameState.turn].color : '#ffffff'}`,
+            ...props.style,
+            opacity: `${props.question.answered ? '0' : '1'}`,
+            }}>
           {props.question.points}
           <span>{props.question.focus ? gameState.players[gameState.turn].emoji : ''}</span>
         </div>}

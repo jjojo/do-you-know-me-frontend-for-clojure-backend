@@ -4,6 +4,10 @@ p {
   text-transform: capitalize;
   text-align: center;
 
+  &:last-child {
+    color: #000;
+  }
+
   > span {
     padding-right: 10px;
     font-size: 3rem;

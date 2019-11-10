@@ -4,7 +4,7 @@ import { GameState, Questions } from "../contexts";
 export const SocketContext = React.createContext();
 
 const SocketProvider = (props) => {
-  const [socket, setSocket] = useState(new WebSocket("ws://localhost:9000"))
+  const [socket, setSocket] = useState(new WebSocket("ws://localhost:9090"))
   
   // const { setGameState } = useContext(GameState);
   // const { setQuestions } = useContext(Questions);

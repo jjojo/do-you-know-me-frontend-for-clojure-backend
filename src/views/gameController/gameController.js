@@ -1,5 +1,5 @@
-import React,{ useContext, useEffect, useState } from 'react';
-import { GameState, Socket } from '../../contexts';
+import React,{ useContext, useEffect } from 'react';
+import { GameState } from '../../contexts';
 import LeaveGame from '../../components/leaveGame/leaveGame';
 import './gameController.scss';
 import ChoosingQuestions from '../../components/chosingQuestions/choosingQuestions';
@@ -43,6 +43,7 @@ function PlayerScreen(props) {
                   onChange={(e) => sendUsername(e.target.value)} 
                   placeholder={player.username || 'Username'}
                   maxLength="20"
+                  defaultValue={player.username || 'Username'}
                   autoFocus/>
               </span>
           </header>
@@ -52,7 +53,7 @@ function PlayerScreen(props) {
           }
         </div>
       : <p>Loading or you are not a player in this game...</p>}
-    <pre>{ JSON.stringify(gameState, null, "  ") }</pre>
+    <pre style={{overflow: 'auto'}}>{ JSON.stringify(gameState, null, "  ") }</pre>
   </>);
 }
 

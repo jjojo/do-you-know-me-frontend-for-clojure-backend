@@ -26,6 +26,8 @@ function App() {
               return setGameState(JSON.parse(data).payload);
             case "PLAYER_ID":
               return sessionStorage.setItem('playerId', JSON.parse(data).payload)
+            case "GAME_IN_PROGRESS":
+              return setGameState(JSON.parse(data).payload);
             case "QUESTIONS":
               return setQuestions(JSON.parse(data).payload);
             default:

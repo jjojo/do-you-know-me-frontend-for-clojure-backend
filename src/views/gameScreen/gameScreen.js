@@ -1,18 +1,17 @@
-import React,{ useContext, useEffect, useState } from 'react';
-import { GameState, Socket } from '../../contexts';
+import React,{ useContext, useEffect } from 'react';
+import { GameState } from '../../contexts';
 import LeaveGame from '../../components/leaveGame/leaveGame';
 import PlayerEmojiUsername from '../../components/playerEmojiUsername/playerEmojiUsername';
 import Question from '../../components/question/question';
 import './gameScreen.scss';
 import GameStarted from '../../components/gameStarted/gameStarted';
 import QuestionPopUp from '../../components/questionPopUp/questionPopUp';
-//import { SocketContext } from '../../sockets/socketProvider';
+import Score from '../../components/score/score';
+import ShowResults from '../../components/showResults/showResults';
 
 function GameScreen(props) {
   console.log(props);
   const { gameState } = useContext(GameState);
-  //const { socket } = useContext(SocketContext)
-
 
   useEffect(() => {
     if (gameState) sessionStorage.setItem('gameId', gameState.id)
@@ -24,6 +23,8 @@ function GameScreen(props) {
 
   return (<>{ gameState 
     ? <div className={"game-screen"}>
+        <GameStarted started={gameState.gameStarted}/>
+        {gameState.results && <ShowResults></ShowResults>}
         <header>
           <h1> 
             <LeaveGame/>
@@ -31,30 +32,33 @@ function GameScreen(props) {
           <h3>Game code: {gameState.id}</h3>
           <button onClick={fullScreen}>fullscreen</button>
         </header>
-
         <main>
           { gameState.activeQuestion && <QuestionPopUp/>}
-          {Object.keys(gameState.players).map((key) => {
+          {Object.keys(gameState.players).map((key, i) => {
             const player = gameState.players[key];
             return (
               <section style={{backgroundColor: player.color}} key={player.color}>
-                <div>
-                  {Object.keys(player.questions).map((key) => {
-                    return <Question question={player.questions[key]} player={player} key={player.questions[key].question}></Question>
+                <div className={'question-wrapper'}>
+                  {Object.keys(player.questions)
+                  .map((key) => {
+                    return <Question
+                      question={player.questions[key]} 
+                      player={player} 
+                      key={player.questions[key].question}>
+                    </Question>
                   })}
                 </div>
                 <PlayerEmojiUsername player={player}/>
-                <span>{player.points}</span>
+                <Score score={player.points}></Score>
               </section>
             )
           })}
-          {gameState.gameStarted && <GameStarted/>}
         </main>
-
-        <pre>{ JSON.stringify(gameState, null, "  ") }</pre>
       </div>
       : <p>Loading game...</p>
-  }</>);
+  }
+    <pre>{ JSON.stringify(gameState, null, "  ") }</pre>
+  </>);
 }
 
 export default GameScreen;

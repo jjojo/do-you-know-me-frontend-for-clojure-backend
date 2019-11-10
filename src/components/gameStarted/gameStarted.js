@@ -1,10 +1,18 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
+import './gameStarted.scss'
 
-const GameStarted = () => {
+const GameStarted = (props) => {
+  const [animation, setAnimation] = useState('');
 
-  return (<>
-    <p>GAME STARTED</p>
-  </>)
+  useEffect(() => {
+    if (props.started) {
+      setAnimation('start-animation')
+    }
+  }, [props.started, setAnimation])
+
+  return (<div className={'game-started'}>
+    <h1 className={animation}>GAME STARTED</h1>
+  </div>)
 }
 
 export default GameStarted;
